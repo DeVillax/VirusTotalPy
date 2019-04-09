@@ -16,7 +16,12 @@ Program to compute the md5, sha1 and sha256 of a file and check whether there is
 
 ### IP Addresses
 - [ ] Check IP addresses on VirusTotal and MetaDefender
+  - [x] Check a given IP address on VirusTotal
+  - [ ] Check a given IP address on MetaDefender
+- [ ] Validate given IP address
 - [ ] Display information
+  - [x] Display information fetched from VirusTotal
+  - [ ] Display information fetched from MetaDefenderCloud
 
 ### URL 
 - [ ] Check url on VirusTotal and MetaDefender
