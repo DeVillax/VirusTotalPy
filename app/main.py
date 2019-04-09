@@ -1,7 +1,20 @@
+#!/usr/bin/env python
+
+__author__ = "NcVillalobos"
+__copyright__ = "Copyright 2019, NcVillalobos"
+__credits__ = ["NcVillalobos"]
+__license__ = "MIT"
+__version__ = 0.3
+__status__ = "Development"
+
+
+
 from VirusTotal import retrieve_file_report, submit_file, retrieve_ip_report
 from hashes import *
 from MetaDefenderCloud import retrieve_hash_information
 from tkinter.filedialog import askopenfilename
+from Exceptions import FieldNotAvailable
+
 import re
 import sys
 import time
@@ -46,13 +59,16 @@ def menu():
                 select_hash(hashes)
                 final_operation()
             elif option == 2:
-                # TO be Completed
+                check_ip()
                 final_operation()
             elif option == 3:
                 print("Closing the program...")
                 sys.exit()
             else:
                 print("The option entered doesn't exist. Please try again")
+
+# ----------------------------------------------------------------------------------------------
+# Hash Methods
 
 
 def generate_hashes():
@@ -131,6 +147,43 @@ def check_hash(hash):
             for AV in response_metadefender["scan_results"]["scan_details"]:
                 if response_metadefender['scan_results']['scan_details'][AV]['threat_found'] != "":
                     print(f"{AV} -- {response_metadefender['scan_results']['scan_details'][AV]['threat_found']}")
+
+# ----------------------------------------------------------------------------------------------
+# IP Address Methods
+
+
+def check_ip():
+
+    # User Input
+    ip = input("Enter the IP address:")
+
+    # Responses
+    response_virustotal = retrieve_ip_report(ip)
+
+    print(f"Results for {ip}:")
+    print(f"Continent: {response_virustotal['continent']}")
+    print(f"Country: {response_virustotal['country']}")
+    print(f"Owner: {response_virustotal['as_owner']}")
+    print(f"Network: {response_virustotal['network']}")
+    print("Hostname/s associated:")
+
+    for resolution in response_virustotal["resolutions"]:
+        print(f"\thostname: {resolution['hostname']}")
+
+    if "detected_urls" in response_virustotal:
+        if len(response_virustotal["detected_urls"]) > 0:
+            print("Detected URLs:")
+            for detected_url in response_virustotal["detected_urls"]:
+                print(f"URL: {detected_url['url']}")
+                print(f"Detection ratio: {detected_url['positives']}/{detected_url['total']}")
+                print()
+
+    if "detected_downloaded_samples" in response_virustotal:
+        print("Detected Downloaded Samples:")
+        for sample in response_virustotal["detected_downloaded_samples"]:
+            print(f"SHA: {sample['sha256']}")
+            print(f"Detection ratio: {sample['positives']}/{sample['total']}")
+            print()
 
 
 if __name__ == '__main__':
