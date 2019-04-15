@@ -1,5 +1,18 @@
 # Signature-checker
-Program to compute the md5, sha1 and sha256 of a file and check whether there is a record associate on VirusTotal and MetaDefender
+Program to perform a set of actions on VirusTotal and Metadefender Cloud. This set comprises the following actions:
+
+*Hash
+Compute the md5, sha1 and sha256 of a file and check whether there is a record associate on VirusTotal and MetaDefender
+
+*Files
+Upload files to Virustotal and MetaDefender and display the results
+
+*IP addresses
+Check whether any AVs detects issues with a given IP address
+
+*URL
+Check whether any Avs detecs issues with a given URL
+
 
 ## Checklist
 ### Hash
