@@ -11,7 +11,7 @@ __status__ = "Development"
 
 from VirusTotal import retrieve_file_report, submit_file, retrieve_ip_report
 from hashes import *
-from MetaDefenderCloud import retrieve_hash_information
+from MetaDefenderCloud import retrieve_hash_information, retrieve_ip_information
 from tkinter.filedialog import askopenfilename
 from Exceptions import FieldNotAvailable
 
@@ -59,7 +59,9 @@ def menu():
                 select_hash(hashes)
                 final_operation()
             elif option == 2:
-                check_ip()
+                ip = input("Enter the IP address:")
+                check_ip_virustotal(ip)
+                check_ip_metadefender(ip)
                 final_operation()
             elif option == 3:
                 print("Closing the program...")
@@ -151,20 +153,25 @@ def check_hash(hash):
 # ----------------------------------------------------------------------------------------------
 # IP Address Methods
 
+def check_ip_virustotal(ip):
 
-def check_ip():
-
-    # User Input
-    ip = input("Enter the IP address:")
-
-    # Responses
+    # Response
     response_virustotal = retrieve_ip_report(ip)
+    print(response_virustotal)
 
     print(f"Results for {ip}:")
-    print(f"Continent: {response_virustotal['continent']}")
-    print(f"Country: {response_virustotal['country']}")
-    print(f"Owner: {response_virustotal['as_owner']}")
-    print(f"Network: {response_virustotal['network']}")
+
+    if "continent" in response_virustotal:
+        print(f"Continent: {response_virustotal['continent']}")
+
+    if "country" in response_virustotal:
+        print(f"Country: {response_virustotal['country']}")
+
+    if "as_owner" in response_virustotal:
+        print(f"Owner: {response_virustotal['as_owner']}")
+
+    if "network" in response_virustotal:
+        print(f"Network: {response_virustotal['network']}")
     print("Hostname/s associated:")
 
     for resolution in response_virustotal["resolutions"]:
@@ -185,6 +192,17 @@ def check_ip():
             print(f"Detection ratio: {sample['positives']}/{sample['total']}")
             print()
 
+def check_ip_metadefender(ip):
+
+    # Response
+    response = retrieve_ip_information(ip)
+
+    print(f"Results for {ip}:")
+    print(f"Continent: {response['geo_info']['continent']['name']}")
+    print(f"Country: {response['geo_info']['country']['name']}")
+    print(f"Detected by {response['lookup_results']['detected_by']} AV/s")
+
 
 if __name__ == '__main__':
     menu()
+
