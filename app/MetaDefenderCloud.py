@@ -15,3 +15,12 @@ def retrieve_hash_information(hash):
     headers = {"apikey": API_KEY}
     response = requests.get(metadefender_url, headers=headers)
     return response.json()
+
+
+def retrieve_ip_information(ip):
+    url = f"https://api.metadefender.com/v4/ip/{ip}"
+    headers = {"apikey": API_KEY}
+    response = requests.get(url, headers=headers)
+    return response.json()
+
+
