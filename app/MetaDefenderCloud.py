@@ -1,4 +1,5 @@
 import requests
+import re
 API_KEY = ""
 
 
@@ -21,6 +22,15 @@ def retrieve_ip_information(ip):
     url = f"https://api.metadefender.com/v4/ip/{ip}"
     headers = {"apikey": API_KEY}
     response = requests.get(url, headers=headers)
+    return response.json()
+
+
+def retrieve_url_information(url):
+    replaced_1 = re.sub(":", "%3A", url)
+    replaced_2 = re.sub("/", "%2F", replaced_1)
+    metadefender = f"https://api.metadefender.com/v4/url/{replaced_2}"
+    headers = {"apikey": API_KEY}
+    response = requests.get(metadefender, headers=headers)
     return response.json()
 
 
