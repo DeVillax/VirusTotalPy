@@ -9,9 +9,9 @@ __status__ = "Development"
 
 
 
-from VirusTotal import retrieve_file_report, submit_file, retrieve_ip_report
+from VirusTotal import retrieve_file_report, submit_file, retrieve_ip_report, retrieve_url_report
 from hashes import *
-from MetaDefenderCloud import retrieve_hash_information, retrieve_ip_information
+from MetaDefenderCloud import retrieve_hash_information, retrieve_ip_information, retrieve_url_information
 from tkinter.filedialog import askopenfilename
 from Exceptions import FieldNotAvailable
 
@@ -19,55 +19,6 @@ import re
 import sys
 import time
 import json
-
-
-def welcome_message():
-    print("*"*30)
-    print("Welcome to the Hash Checker App")
-    print("*"*30)
-    print("What would you like to do today?")
-    print("1) Check hash")
-    print("2) Check IP Address")
-    print("3) Exit")
-
-
-def final_operation():
-    while 1:
-        option = input("Would you like to perform any other operation? (Y/N)")
-        if option.upper() != "Y" and option.upper() != "N":
-            print("The option entered is not valid. Please try again")
-        else:
-            if option.upper() == "Y":
-                welcome_message()
-                break
-            else:
-                print("Closing the program...")
-                sys.exit()
-
-
-def menu():
-    welcome_message()
-    while 1:
-        try:
-            option = int(input("Select Option:"))
-        except ValueError:
-            print("The option entered doesn't exist. Please try again.")
-        else:
-            if option == 1:
-                hashes = generate_hashes()
-                print_hashes(hashes)
-                select_hash(hashes)
-                final_operation()
-            elif option == 2:
-                ip = input("Enter the IP address:")
-                check_ip_virustotal(ip)
-                check_ip_metadefender(ip)
-                final_operation()
-            elif option == 3:
-                print("Closing the program...")
-                sys.exit()
-            else:
-                print("The option entered doesn't exist. Please try again")
 
 # ----------------------------------------------------------------------------------------------
 # Hash Methods
@@ -157,7 +108,6 @@ def check_ip_virustotal(ip):
 
     # Response
     response_virustotal = retrieve_ip_report(ip)
-    print(response_virustotal)
 
     print(f"Results for {ip}:")
 
@@ -192,17 +142,47 @@ def check_ip_virustotal(ip):
             print(f"Detection ratio: {sample['positives']}/{sample['total']}")
             print()
 
-def check_ip_metadefender(ip):
 
-    # Response
+def check_ip_metadefender(ip):
     response = retrieve_ip_information(ip)
 
     print(f"Results for {ip}:")
-    print(f"Continent: {response['geo_info']['continent']['name']}")
-    print(f"Country: {response['geo_info']['country']['name']}")
+    if "continent" in response:
+        print(f"Continent: {response['geo_info']['continent']['name']}")
+
+    if "country" in response:
+        print(f"Country: {response['geo_info']['country']['name']}")
     print(f"Detected by {response['lookup_results']['detected_by']} AV/s")
+
+#-----------------------------------------------------------------------------------------------------------------------
+# URL Methods
+
+
+def check_url_virustotal(url):
+    response = retrieve_url_report(url)
+
+    print(f"Results for {url}:")
+    print(f"Latest scan was made on {response['scan_date']}")
+    print(f"This url was detected by {response['positives']}/{response['total']}")
+
+    if response["positives"] != 0:
+        for scan in response["scans"]:
+            if scan["detected"]:
+                print(scan)
+
+
+def check_url_metadefender(url):
+    response = retrieve_url_information(url)
+    print(json.dumps(response, indent=4))
+
+    print(f"Results for {url}:")
+    print(f"This url was detected by {response['positives']} AV/s")
+
+    if response["detected_by"] != 0:
+        for scan in response["lookup_results"]["sources"]:
+            if scan["detected_time"] != "":
+                print(scan["provider"])
 
 
 if __name__ == '__main__':
-    menu()
-
+    check_url_metadefender("")
