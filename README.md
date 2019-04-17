@@ -41,8 +41,12 @@ Check whether any Avs detecs issues with a given URL
   - [x] Display information fetched from MetaDefenderCloud
 
 ### URL 
-- [ ] Check url on VirusTotal and MetaDefender
-- [ ] Display information
+- [x] Check url on VirusTotal and MetaDefender
+  - [x] Check a given URL on VirusTotal
+  - [x] Check a given URL on MetaDefender
+- [x] Display information
+  - [x] Display information fetched from VirusTotal
+  - [x] Display information fetched from MetaDefenderCloud
 
 ### GUI
 - [ ] Create a GUI
