@@ -48,6 +48,14 @@ Check whether any Avs detecs issues with a given URL
   - [x] Display information fetched from VirusTotal
   - [x] Display information fetched from MetaDefenderCloud
 
-### GUI
-- [ ] Create a GUI
+### Domain
+- [x] Check domain on VirusTotal and MetaDefender
+  - [x] Check a given domain on VirusTotal
+  - [x] Check a given domain on MetaDefender
+- [x] Display information
+  - [x] Display information fetched from VirusTotal
+  - [x] Display information fetched from MetaDefenderCloud
+
+### Menu
+- [ ] Create a Menu
   
