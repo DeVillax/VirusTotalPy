@@ -29,11 +29,11 @@ Check whether any Avs detecs issues with a given URL
 
 ### Files
 - [ ] Upload files to Virustotal and MetaDefender
-  - [] Upload a file to VirusTotal
-  - [] Upload a file to MetaDefender
+  - [ ] Upload a file to VirusTotal
+  - [ ] Upload a file to MetaDefender
 - [ ] Display information
-  - [] Display information fetched from VirusTotal
-  - [] Display information fetched from MetaDefender
+  - [ ] Display information fetched from VirusTotal
+  - [ ] Display information fetched from MetaDefender
 
 ### IP Addresses
 - [x] Check IP addresses on VirusTotal and MetaDefender
