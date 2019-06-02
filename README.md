@@ -3,7 +3,7 @@
 VirusTotalPy is a simple client wrapper for the VirusTotal Web API.
 
 ## Dependencies
-* Requests - spotipy requires the requests package to be installed
+* Requests - VirusTotalPy requires the requests package to be installed
 
 ## Quick Start
 Simply import virustotalpy to your project, create a VirusTotalPy object and call its methods:
